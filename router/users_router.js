@@ -76,8 +76,8 @@ router.delete("/:id", (res, req) => {
 });
 
 //PUT Updates the user with the specified `id` using data from the `request body`
-router.put('/:id', (res, req) =>{
-    const id = req.params.id;
+router.patch("/:id", (res, req) => {
+  const id = req.params.id;
   const userData = req.body;
 
   if (!userData.name || !userData.bio) {
@@ -102,3 +102,4 @@ router.put('/:id', (res, req) =>{
       });
   }
 });
+module.exports = router;
