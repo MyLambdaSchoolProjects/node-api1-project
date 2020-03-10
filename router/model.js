@@ -15,24 +15,28 @@ module.exports = {
   
   function findById(id) {
     return db('users')
-      .where({ id: Number(id) })
+      .where({ id })
       .first();
   }
   
   function insert(user) {
     return db('users')
-      .insert(user)
-      .then(ids => ({ id: shortid.generate() }));
+      .insert({
+        id : shortid.generate(),
+        name: user.name,
+        bio: user.bio
+      });
+      
   }
   
   function update(id, user) {
     return db('users')
-      .where('id', Number(id))
+      .where('id', id)
       .update(user);
   }
   
   function remove(id) {
     return db('users')
-      .where('id', Number(id))
+      .where('id', id)
       .del();
   }

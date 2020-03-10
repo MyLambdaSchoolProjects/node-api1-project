@@ -3,8 +3,9 @@ const router = require("express").Router();
 const users = require("./model");
 
 //POST Creates a user using the information sent inside the `request body`
-router.post("/", (res, req) => {
+router.post("/", (req, res) => {
   const userData = req.body;
+  
   if (!userData.name || !userData.bio) {
     res
       .status(400)
@@ -23,7 +24,7 @@ router.post("/", (res, req) => {
 });
 
 //GET Returns an array of all the user objects contained in the database.
-router.get("/", (res, req) => {
+router.get("/", (req, res) => {
   users
     .find()
     .then(users => {
@@ -38,7 +39,7 @@ router.get("/", (res, req) => {
 });
 
 //GET Returns the user object with the specified `id`
-router.get("/:id", (res, req) => {
+router.get("/:id", (req, res) => {
   const id = req.params.id;
   users
     .findById(id)
@@ -58,7 +59,7 @@ router.get("/:id", (res, req) => {
 });
 
 //DELETE Removes the user with the specified `id` and returns the deleted user
-router.delete("/:id", (res, req) => {
+router.delete("/:id", (req, res) => {
   const id = req.params.id;
   users
     .remove(id)
@@ -76,7 +77,7 @@ router.delete("/:id", (res, req) => {
 });
 
 //PUT Updates the user with the specified `id` using data from the `request body`
-router.patch("/:id", (res, req) => {
+router.patch("/:id", (req, res) => {
   const id = req.params.id;
   const userData = req.body;
 
@@ -85,7 +86,7 @@ router.patch("/:id", (res, req) => {
       .status(400)
       .json({ message: "Please provide name and bio for the user." });
   } else {
-    db.update(id, userData)
+    users.update(id, userData)
       .then(user => {
         if (user) {
           res.status(200).json({ success: true, user });
